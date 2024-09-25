@@ -28,6 +28,14 @@ public class RegistrationDAO {
             if (conn.isValid(0)) {
                 
                 // INSERT YOUR CODE HERE
+		String query = "INSERT INTO jsu_fa24_v1.registration (studentid, termid, crn) VALUES (?, ?, ?)";
+		ps = conn.prepareStatement(query);
+		ps.setInt(1, studentid);
+		ps.setInt(2, termid);
+		ps.setInt(3, crn);
+		
+		int updateCount = ps.executeUpdate();
+		result = updateCount > 0;
                 
             }
             
@@ -59,7 +67,14 @@ public class RegistrationDAO {
             if (conn.isValid(0)) {
                 
                 // INSERT YOUR CODE HERE
-                
+                String query = "DELETE FROM registration WHERE studentid=? AND termid=? AND crn=?";
+		ps = conn.prepareStatement(query);
+		ps.setInt(1, studentid);
+		ps.setInt(2, termid);
+		ps.setInt(3, crn);
+		
+		int updateCount = ps.executeUpdate();
+		result = updateCount > 0;
             }
             
         }
@@ -89,7 +104,13 @@ public class RegistrationDAO {
             if (conn.isValid(0)) {
                 
                 // INSERT YOUR CODE HERE
-                
+                String query = "DELETE FROM registration WHERE studentid=? AND termid=?";
+		ps = conn.prepareStatement(query);
+		ps.setInt(1, studentid);
+		ps.setInt(2, termid);
+		
+		int updateCount = ps.executeUpdate();
+		result = updateCount > 0;
             }
             
         }
@@ -121,7 +142,16 @@ public class RegistrationDAO {
             if (conn.isValid(0)) {
                 
                 // INSERT YOUR CODE HERE
-                
+                String query = "SELECT * FROM registration WHERE studentid=? AND termid=? ORDER BY crn";
+		ps = conn.prepareStatement(query);
+		ps.setInt(1, studentid);
+		ps.setInt(2, termid);
+		
+		boolean hasResults = ps.execute();
+		if (hasResults) {
+			rs = ps.getResultSet();
+			result = DAOUtility.getResultSetAsJson(rs);
+		}
             }
             
         }
