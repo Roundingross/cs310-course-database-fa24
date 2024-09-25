@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.Statement;
 
 public class RegistrationDAO {
     
@@ -27,13 +26,15 @@ public class RegistrationDAO {
             
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                // Query for inserting new record
 		String query = "INSERT INTO jsu_fa24_v1.registration (studentid, termid, crn) VALUES (?, ?, ?)";
 		ps = conn.prepareStatement(query);
+		// Placeholder values
 		ps.setInt(1, studentid);
 		ps.setInt(2, termid);
 		ps.setInt(3, crn);
 		
+		// Execute count update and return result
 		int updateCount = ps.executeUpdate();
 		result = updateCount > 0;
                 
@@ -66,13 +67,15 @@ public class RegistrationDAO {
             
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                // Query to delete from record (studentid, termid, crn)
                 String query = "DELETE FROM registration WHERE studentid=? AND termid=? AND crn=?";
 		ps = conn.prepareStatement(query);
+		// Placeholder values
 		ps.setInt(1, studentid);
 		ps.setInt(2, termid);
 		ps.setInt(3, crn);
 		
+		// Execute count update and return result
 		int updateCount = ps.executeUpdate();
 		result = updateCount > 0;
             }
@@ -103,12 +106,14 @@ public class RegistrationDAO {
             
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                // Query to delete from record (studentid, termid)
                 String query = "DELETE FROM registration WHERE studentid=? AND termid=?";
 		ps = conn.prepareStatement(query);
+		// Placeholder values
 		ps.setInt(1, studentid);
 		ps.setInt(2, termid);
 		
+		// Execute count update and return result
 		int updateCount = ps.executeUpdate();
 		result = updateCount > 0;
             }
@@ -141,14 +146,17 @@ public class RegistrationDAO {
             
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                // Query to return list of records
                 String query = "SELECT * FROM registration WHERE studentid=? AND termid=? ORDER BY crn";
 		ps = conn.prepareStatement(query);
+		// Placeholder values
 		ps.setInt(1, studentid);
 		ps.setInt(2, termid);
 		
+		// Execute query and check for results
 		boolean hasResults = ps.execute();
 		if (hasResults) {
+			// Converting result and returning as JSON
 			rs = ps.getResultSet();
 			result = DAOUtility.getResultSetAsJson(rs);
 		}

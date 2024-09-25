@@ -2,7 +2,6 @@ package edu.jsu.mcis.cs310.coursedb.dao;
 
 import java.sql.*;
 import com.github.cliftonlabs.json_simple.*;
-import java.util.ArrayList;
 
 public class DAOUtility {
     
@@ -16,15 +15,19 @@ public class DAOUtility {
         
             if (rs != null) {
 
-                // INSERT YOUR CODE HERE
+		// Retrieve metadata for ResultSet
 		ResultSetMetaData rsmd = rs.getMetaData();
+		
 		int columnCount = rsmd.getColumnCount();
 		
+		// Iterate over each row
 		while (rs.next()) {
 			JsonObject row = new JsonObject();
+			// Loop for column data
 			for (int i = 1; i <= columnCount; i++) {
 				String columnName = rsmd.getColumnName(i);
 				String columnValue = rs.getString(columnName);
+				// Store column data in JsonObject
 				row.put(columnName, columnValue);
 			}
 			records.add(row);

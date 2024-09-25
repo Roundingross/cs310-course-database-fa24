@@ -29,15 +29,18 @@ public class SectionDAO {
             
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                // Establish connection to DAO factory
 		ps = conn.prepareStatement(QUERY_FIND);
+		
+		// Set parameters for prepared statements
 		ps.setInt(1, termid);
 		ps.setString(2, subjectid);
 		ps.setString(3, num);
 
+		// Execute query and check for results
 		boolean hasResult = ps.execute();
-
 		if (hasResult) {
+			// Converting result and returning as JSON
 			rs = ps.getResultSet();
 			result = DAOUtility.getResultSetAsJson(rs);
 		}
